@@ -49,20 +49,16 @@ namespace Pomodoro_Timer_Project
             if (Title == enTitle.Work)
             {
                 TimeMinutes = TimeWork;
-
             }
             if (Title == enTitle.Break)
             {
                 TimeMinutes = TimeBreak;
-
             }
-        }
-
-        void BreakLongTime()
-        {
-            TimeMinutes = TimeLongBreak;
-            Title = enTitle.LongBreak;
-            BreakCounter = 0;
+            if(Title==enTitle.LongBreak)
+            {
+                TimeMinutes = TimeLongBreak;
+                BreakCounter = 0;
+            }
         }
 
         void ShowAMessage()
@@ -90,14 +86,14 @@ namespace Pomodoro_Timer_Project
                 ShowAMessage();
                 if (BreakCounter ==3)
                 {
-                    BreakLongTime();
+                    Title = enTitle.LongBreak;
+                   
                 }
                 else
                 {
                     Title = enTitle.Break;
-                    SetTime();
                 }
-               
+                SetTime();
             }
         }
 
@@ -105,7 +101,6 @@ namespace Pomodoro_Timer_Project
         {
             if (TimeMinutes == 0 && TimeSeconds == 0 && (Title == enTitle.Break || Title == enTitle.LongBreak))
             {
-               
                ShowAMessage();
                BreakCounter++;
                Title = enTitle.Work;
@@ -140,11 +135,11 @@ namespace Pomodoro_Timer_Project
 
                     if (TimeSeconds < 10)
                     {
-                        Seconds = "0" + TimeSeconds.ToString();
+                        Seconds = $"0{TimeSeconds.ToString()}" ;
                     }
                     if (TimeMinutes < 10)
                     {
-                        Minutes = "0" + TimeMinutes.ToString();
+                        Minutes = $"0{TimeMinutes.ToString()}" ;
                     }
                     labTimer.Text = Minutes + " : " + Seconds;
 
@@ -152,7 +147,7 @@ namespace Pomodoro_Timer_Project
 
                 else
                 {
-                    labTimer.Text = TimeMinutes.ToString() + " : " + TimeSeconds.ToString();
+                    labTimer.Text =  $"{ TimeMinutes.ToString()} : { TimeSeconds.ToString()}" ;
                 }
 
                 TimeSeconds--;
@@ -164,8 +159,6 @@ namespace Pomodoro_Timer_Project
                     if(TimeMinutes > 0)
                          TimeMinutes--;
                 }
-
-                
             }
 
 
