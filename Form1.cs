@@ -18,20 +18,20 @@ namespace Pomodoro_Timer_Project
         }
         enum enTitle
         {
-           Work,
-           Break,
-           LongBreak
+            Work,
+            Break,
+            LongBreak
         };
         enTitle Title = enTitle.Work;
 
         private int TimeWork = 25;
-        private int TimeBreak =5;
+        private int TimeBreak = 5;
         private int TimeLongBreak = 20;
 
         private int TimeMinutes = 0;
         private int TimeSeconds = 0;
         private byte BreakCounter = 0;
- 
+
 
         void Reset()
         {
@@ -46,71 +46,77 @@ namespace Pomodoro_Timer_Project
 
         void SetTime()
         {
-            if (Title == enTitle.Work)
+            switch (Title)
             {
-                TimeMinutes = TimeWork;
-            }
-            if (Title == enTitle.Break)
-            {
-                TimeMinutes = TimeBreak;
-            }
-            if(Title==enTitle.LongBreak)
-            {
-                TimeMinutes = TimeLongBreak;
-                BreakCounter = 0;
+                case enTitle.Work:
+                    TimeMinutes = TimeWork;
+                    break;
+
+                case enTitle.Break:
+                    TimeMinutes = TimeBreak;
+                    break;
+
+                case enTitle.LongBreak:
+                    TimeMinutes = TimeLongBreak;
+                    BreakCounter = 0;
+                    break;
+
             }
         }
 
         void ShowAMessage()
         {
             timer1.Enabled = false;
-           
 
-            if(Title==enTitle.Work)
+            if (Title == enTitle.Work)
             {
                 MessageBox.Show("Great job! Time for a break 😌", "Work session finished");
-                   
-
             }
             else
             {
                 MessageBox.Show("Break finished! Back to work 💪");
-                   
+
             }
-            timer1.Enabled = true ;
+            timer1.Enabled = true;
         }
         void FinishWork()
         {
-            if (TimeMinutes == 0 && TimeSeconds == 0 && Title == enTitle.Work)
+            ShowAMessage();
+            if (BreakCounter == 3)
             {
-                ShowAMessage();
-                if (BreakCounter ==3)
-                {
-                    Title = enTitle.LongBreak;
-                   
-                }
-                else
-                {
-                    Title = enTitle.Break;
-                }
-                SetTime();
+                Title = enTitle.LongBreak;
             }
+            else
+            {
+                Title = enTitle.Break;
+            }
+            SetTime();
         }
 
         void FinishBreak()
         {
-            if (TimeMinutes == 0 && TimeSeconds == 0 && (Title == enTitle.Break || Title == enTitle.LongBreak))
+            ShowAMessage();
+            BreakCounter++;
+            Title = enTitle.Work;
+            SetTime();
+
+        }
+
+        void ChangeTimer()
+        {
+            if (Title == enTitle.Work)
             {
-               ShowAMessage();
-               BreakCounter++;
-               Title = enTitle.Work;
-               SetTime();
+                FinishWork();
+            }
+            else
+            {
+                FinishBreak();
             }
         }
 
         void SetTitle()
         {
-            if(Title==enTitle.LongBreak)
+            if (Title == enTitle.LongBreak)
             {
                 labTitle.Text = "Long Break";
                 labTitle.Font = new Font(labTitle.Font.FontFamily, 28);
@@ -122,6 +128,8 @@ namespace Pomodoro_Timer_Project
 
             }
         }
+      
+
        void Timer()
         {
             SetTitle();
@@ -161,15 +169,11 @@ namespace Pomodoro_Timer_Project
                 }
             }
 
-
-            if (Title == enTitle.Work)
+            if(TimeMinutes == 0 && TimeSeconds == 0)
             {
-                FinishWork();
+                ChangeTimer();
             }
-            else
-            {
-                FinishBreak();
-            }
+           
         }
 
 
