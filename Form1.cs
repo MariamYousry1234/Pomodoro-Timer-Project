@@ -24,10 +24,6 @@ namespace Pomodoro_Timer_Project
         };
         enTitle Title = enTitle.Work;
 
-        private int TimeWork = 25;
-        private int TimeBreak = 5;
-        private int TimeLongBreak = 20;
-
         private int TimeMinutes = 0;
         private int TimeSeconds = 0;
         private byte BreakCounter = 0;
@@ -41,6 +37,7 @@ namespace Pomodoro_Timer_Project
             TimeMinutes = 0;
             TimeSeconds = 0;
             BreakCounter = 0;
+            Title = enTitle.Work;
         }
 
 
@@ -49,15 +46,15 @@ namespace Pomodoro_Timer_Project
             switch (Title)
             {
                 case enTitle.Work:
-                    TimeMinutes = TimeWork;
+                    TimeMinutes = 25;
                     break;
 
                 case enTitle.Break:
-                    TimeMinutes = TimeBreak;
+                    TimeMinutes = 5;
                     break;
 
                 case enTitle.LongBreak:
-                    TimeMinutes = TimeLongBreak;
+                    TimeMinutes = 20;
                     BreakCounter = 0;
                     break;
 
@@ -104,6 +101,7 @@ namespace Pomodoro_Timer_Project
 
         void ChangeTimer()
         {
+            labTimer.Text = " 00:00";
             if (Title == enTitle.Work)
             {
                 FinishWork();
@@ -133,6 +131,14 @@ namespace Pomodoro_Timer_Project
        void Timer()
         {
             SetTitle();
+
+            if (TimeMinutes == 0 && TimeSeconds == 0)
+            {
+                ChangeTimer();
+                return;
+            }
+
+
 
             if (TimeMinutes > 0 || TimeSeconds> 0)
             {
@@ -169,11 +175,7 @@ namespace Pomodoro_Timer_Project
                 }
             }
 
-            if(TimeMinutes == 0 && TimeSeconds == 0)
-            {
-                ChangeTimer();
-            }
-           
+         
         }
 
 
