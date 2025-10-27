@@ -139,43 +139,41 @@ namespace Pomodoro_Timer_Project
             }
 
 
-
-            if (TimeMinutes > 0 || TimeSeconds> 0)
+            if (TimeSeconds < 10 || TimeMinutes < 10)
             {
-                if (TimeSeconds < 10 || TimeMinutes < 10)
+                string Minutes = TimeMinutes.ToString();
+                string Seconds = TimeSeconds.ToString();
+
+                if (TimeSeconds < 10)
                 {
-                    string Minutes = TimeMinutes.ToString();
-                    string Seconds = TimeSeconds.ToString();
-
-                    if (TimeSeconds < 10)
-                    {
-                        Seconds = $"0{TimeSeconds.ToString()}" ;
-                    }
-                    if (TimeMinutes < 10)
-                    {
-                        Minutes = $"0{TimeMinutes.ToString()}" ;
-                    }
-                    labTimer.Text = Minutes + " : " + Seconds;
-
-                 }
-
-                else
-                {
-                    labTimer.Text =  $"{ TimeMinutes.ToString()} : { TimeSeconds.ToString()}" ;
+                    Seconds = $"0{TimeSeconds.ToString()}";
                 }
-
-                TimeSeconds--;
-
-                if(TimeSeconds < 0)
+                if (TimeMinutes < 10)
                 {
-                    TimeSeconds = 59;
-
-                    if(TimeMinutes > 0)
-                         TimeMinutes--;
+                    Minutes = $"0{TimeMinutes.ToString()}";
                 }
+                labTimer.Text = Minutes + " : " + Seconds;
+
             }
 
-         
+            else
+            {
+                labTimer.Text = $"{ TimeMinutes.ToString()} : { TimeSeconds.ToString()}";
+            }
+
+            TimeSeconds--;
+
+            if (TimeSeconds < 0)
+            {
+                TimeSeconds = 59;
+
+                if (TimeMinutes > 0)
+                    TimeMinutes--;
+            }
+
+
+
+
         }
 
 
